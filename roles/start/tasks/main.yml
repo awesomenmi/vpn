@@ -1,0 +1,10 @@
+---
+- name: Start openvpn on {{ ansible_hostname }}
+  service:
+    name: openvpn@{{ ansible_hostname }}
+    state: started
+
+- name: Enable openvpn on {{ ansible_hostname }}
+  service:
+    name: openvpn@{{ ansible_hostname }}
+    enabled: yes

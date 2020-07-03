@@ -1,0 +1,13 @@
+---
+- name: Copy {{ ansible_hostname }}.conf file for {{ ansible_hostname }}
+  copy: 
+    src: "{{ ansible_hostname }}_{{ mode }}.conf"
+    dest: "/etc/openvpn/{{ ansible_hostname }}.conf"
+  when: ansible_hostname == "client" or ansible_hostname == "server" 
+
+- name: Copy server.conf file for {{ ansible_hostname }}
+  copy:
+    src: "server_{{ ansible_hostname }}.conf"
+    dest: "/etc/openvpn/{{ ansible_hostname }}.conf"
+  when: ansible_hostname == "ovpnserver"
+

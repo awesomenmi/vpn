@@ -1,0 +1,24 @@
+---
+- name: Setup tun/tap
+  hosts: 
+    - server
+    - client
+  become: true
+  vars: 
+    mode: tun
+  roles:
+    - net
+    - yum
+    - conf
+    - start
+
+- name: Setup RAS
+  hosts: ovpnserver
+  become: true
+  roles:
+    - net
+    - yum
+    - gen_certs
+    - conf
+    - start
+

@@ -1,0 +1,9 @@
+---
+- name: Echo to sysctl.conf on {{ ansible_hostname }}
+  command: "echo {{ item }} >> /etc/sysctl.conf"
+  with_items:
+  - net.ipv4.conf.all.forwarding=1
+  - net.ipv4.ip_forward=1
+
+- name: Disable selinux
+  command: "setenforce 0"

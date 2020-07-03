@@ -1,0 +1,51 @@
+---
+- name: Generating server certs
+  command: "{{ item }}"
+  args:
+    chdir: /usr/share/easy-rsa/3 
+  with_items:
+    - echo "yes" | /usr/share/easy-rsa/3/easyrsa init-pki
+    - echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa build-ca nopass
+    - echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa gen-req server nopass
+    - echo "yes" | /usr/share/easy-rsa/3/easyrsa sign-req server server
+    - /usr/sbin/openvpn --genkey --secret ta.key
+    - /usr/share/easy-rsa/3/easyrsa gen-dh
+
+- name: Copying server certs
+  command: "cp -ar /usr/share/easy-rsa/3/{{ item }} /etc/openvpn"
+  with_items:
+    - pki/ca.crt
+    - pki/private/ca.key
+    - pki/issued/server.crt
+    - pki/private/server.key
+    - pki/dh.pem 
+    - ta.key
+
+- name: Generating client certs
+  shell: "{{ item }}"
+  args:
+    chdir: /usr/share/easy-rsa/3
+  with_items:
+    - echo 'client' | /usr/share/easy-rsa/3/easyrsa gen-req client nopass
+    - echo 'yes' | /usr/share/easy-rsa/3/easyrsa sign-req client client
+
+- name: Copying client certs
+  command: "cp -ar /usr/share/easy-rsa/3.0.7/pki/{{ item }} /etc/openvpn"
+  with_items:
+    - private/client.key
+    - issued/client.crt
+
+- file:
+    path: "{{ item }}"
+    state: directory
+  with_items: 
+    - /etc/openvpn/ccd
+    - /var/log/openvpn
+
+- command: "echo 'iroute 192.168.20.0 255.255.255.0' > /etc/openvpn/ccd/client" 
+
+
+
+
+
+
