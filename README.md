@@ -142,7 +142,7 @@ ___
     inet6 fe80::52b8:71bb:9d9a:d73b/64 scope link flags 800 
        valid_lft forever preferred_lft forever
 ```
-Затем необходимо открыть client.conf с помощью openvpn-приложения, например: ```openvpn --config client.conf```
+Затем необходимо открыть client.conf с помощью openvpn-приложения для подключения к **openvpnserver**, например: ```openvpn --config client.conf```
 
 ![alt-текст](https://github.com/awesomenmi/vpn/blob/master/Screenshot%20from%202020-07-03%2023-30-23.png)
 
