@@ -5,7 +5,7 @@
     - client
   become: true
   vars: 
-    mode: tun
+    mode: tap
   roles:
     - net
     - yum

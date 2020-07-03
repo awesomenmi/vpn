@@ -21,7 +21,7 @@ MACHINES = {
   :ovpnserver => {
         :box_name => "centos/7",
         :net => [
-                   {ip: '192.168.20.1', adapter: 5, netmask: "255.255.255.0", virtualbox__intnet: "dir-net"},
+                   {ip: '192.168.0.5', adapter: 5, netmask: "255.255.255.0", virtualbox__intnet: "dir-net"},
                    
                 ]
   },
@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
 
         boxconfig[:net].each do |ipconf|
           box.vm.network "private_network", ipconf
-	 # box.vm.network "public_network"
+	  box.vm.network "public_network"
         end
 
         box.vm.provision "shell", inline: <<-SHELL

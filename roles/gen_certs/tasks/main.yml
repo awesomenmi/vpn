@@ -1,18 +1,18 @@
 ---
 - name: Generating server certs
-  command: "{{ item }}"
+  shell: "{{ item }}"
   args:
-    chdir: /usr/share/easy-rsa/3 
+    chdir: /usr/share/easy-rsa/3.0.7 
   with_items:
-    - echo "yes" | /usr/share/easy-rsa/3/easyrsa init-pki
-    - echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa build-ca nopass
-    - echo "openvpnserver" | /usr/share/easy-rsa/3/easyrsa gen-req server nopass
-    - echo "yes" | /usr/share/easy-rsa/3/easyrsa sign-req server server
+    - echo 'yes' | /usr/share/easy-rsa/3.0.7/easyrsa init-pki
+    - echo 'openvpnserver' | /usr/share/easy-rsa/3.0.7/easyrsa build-ca nopass
+    - echo 'openvpnserver' | /usr/share/easy-rsa/3.0.7/easyrsa gen-req server nopass
+    - echo 'yes' | /usr/share/easy-rsa/3.0.7/easyrsa sign-req server server
     - /usr/sbin/openvpn --genkey --secret ta.key
-    - /usr/share/easy-rsa/3/easyrsa gen-dh
+    - /usr/share/easy-rsa/3.0.7/easyrsa gen-dh
 
 - name: Copying server certs
-  command: "cp -ar /usr/share/easy-rsa/3/{{ item }} /etc/openvpn"
+  command: "cp -ar /usr/share/easy-rsa/3.0.7/{{ item }} /etc/openvpn"
   with_items:
     - pki/ca.crt
     - pki/private/ca.key
@@ -24,10 +24,10 @@
 - name: Generating client certs
   shell: "{{ item }}"
   args:
-    chdir: /usr/share/easy-rsa/3
+    chdir: /usr/share/easy-rsa/3.0.7
   with_items:
-    - echo 'client' | /usr/share/easy-rsa/3/easyrsa gen-req client nopass
-    - echo 'yes' | /usr/share/easy-rsa/3/easyrsa sign-req client client
+    - echo 'client' | /usr/share/easy-rsa/3.0.7/easyrsa gen-req client nopass
+    - echo 'yes' | /usr/share/easy-rsa/3.0.7/easyrsa sign-req client client
 
 - name: Copying client certs
   command: "cp -ar /usr/share/easy-rsa/3.0.7/pki/{{ item }} /etc/openvpn"
