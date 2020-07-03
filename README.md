@@ -105,3 +105,6 @@ TCP window size: 90.0 KByte (default)
 [  3] 15.0-20.0 sec   146 MBytes   244 Mbits/sec
 [  3]  0.0-20.0 sec   578 MBytes   243 Mbits/sec
 ```
+___
+Для подключения к машине **ovpnserver** необходимо скопировать с нее файлы _ca.crt, client.crt и client.key_ из каталог _/etc/openvpn_ и положить их рядом с _client.conf_ из корневого каталога стенда.
+
