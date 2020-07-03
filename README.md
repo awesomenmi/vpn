@@ -106,5 +106,44 @@ TCP window size: 90.0 KByte (default)
 [  3]  0.0-20.0 sec   578 MBytes   243 Mbits/sec
 ```
 ___
-Для подключения к машине **ovpnserver** необходимо скопировать с нее файлы _ca.crt, client.crt и client.key_ из каталог _/etc/openvpn_ и положить их рядом с _client.conf_ из корневого каталога стенда.
+Для подключения к машине **ovpnserver** необходимо скопировать с нее файлы _ca.crt, client.crt и client.key_ из каталога _/etc/openvpn_ и положить их рядом с _client.conf_ из корневого каталога стенда.
 
+В client.conf необходимо заменить ip-адрес сервера в опции ```remote``` на ip-адрес интерфейса _eth2_:
+```
+[root@ovpnserver vagrant]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 52:54:00:8a:fe:e6 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global noprefixroute dynamic eth0
+       valid_lft 84740sec preferred_lft 84740sec
+    inet6 fe80::5054:ff:fe8a:fee6/64 scope link 
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:5e:ee:9f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.102/24 brd 192.168.0.255 scope global noprefixroute dynamic eth1
+       valid_lft 5541sec preferred_lft 5541sec
+    inet6 fe80::a00:27ff:fe5e:ee9f/64 scope link 
+       valid_lft forever preferred_lft forever
+4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:fa:76:85 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.5/24 brd 192.168.0.255 scope global noprefixroute eth2
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fefa:7685/64 scope link 
+       valid_lft forever preferred_lft forever
+5: tun0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/none 
+    inet 10.0.0.1 peer 10.0.0.2/32 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::52b8:71bb:9d9a:d73b/64 scope link flags 800 
+       valid_lft forever preferred_lft forever
+```
+Затем необходимо открыть client.conf с помощью openvpn-приложения, например: ```openvpn --config client.conf```
+
+![alt-текст](https://github.com/awesomenmi/vpn/blob/master/Screenshot%20from%202020-07-03%2023-30-23.png)
+
+![alt-текст](https://github.com/awesomenmi/vpn/blob/master/Screenshot%20from%202020-07-03%2023-30-40.png)
